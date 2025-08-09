@@ -6,6 +6,10 @@ A comprehensive, modern User Management System built with the MERN stack, featur
 
 This User Management System provides a complete solution for managing users, roles, and permissions in modern web applications. Built with security, scalability, and user experience in mind.
 
+## 🚀 Live Demo
+
+[Click here to view the live site](https://mern-ums-app.vercel.app/)
+
 ### Key Features
 
 - 🔐 **Secure Authentication** - JWT-based auth with refresh tokens
@@ -487,6 +491,10 @@ The security documentation covers:
 - **Security Checklists** - Phase-by-phase security verification
 
 ## 🚀 Deployment
+
+For complete Deployment Documentation, please refer to:
+
+**[Deployment Documentation](./DEPLOYMENT.md)**
 
 ### Production Build
 
