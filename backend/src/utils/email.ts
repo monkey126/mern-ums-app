@@ -6,14 +6,11 @@ const createTransporter = () => {
   const config = {
     host: process.env["EMAIL_HOST"],
     port: parseInt(process.env["EMAIL_PORT"] || "587"),
-    secure: false, // true for 465, false for other ports
+    secure: true, // true for 465, false for other ports
     auth: {
-      user: process.env["EMAIL_USER"],
+      user: process.env["EMAIL_USER"] || "api",
       pass: process.env["EMAIL_PASS"],
     },
-        tls: {
-      rejectUnauthorized: false
-    }
   };
 
   console.log("Creating transporter with config:", {
