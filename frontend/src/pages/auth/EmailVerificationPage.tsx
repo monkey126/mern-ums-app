@@ -12,7 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Logo } from "@/components/ui/logo";
 import { authService } from "@/services/authService";
 import { CheckCircle, Loader2, Mail, XCircle } from "lucide-react";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { toast } from "react-hot-toast";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
@@ -28,9 +28,7 @@ export const EmailVerificationPage: React.FC = () => {
   const token = searchParams.get("token");
   const email = searchParams.get("email");
 
-  // Auto-verify if token is present in URL
-
-  const verifyEmail = React.useCallback(
+  const verifyEmail = useCallback(
     async (verificationToken: string) => {
       setIsVerifying(true);
       setVerificationError(null);
@@ -46,9 +44,12 @@ export const EmailVerificationPage: React.FC = () => {
             state: { message: "Email verified successfully! Please log in." },
           });
         }, 2000);
-      } catch (error: any) {
+      } catch (error: unknown) {
         const errorMessage =
-          error.response?.data?.message || "Email verification failed";
+          error instanceof Error && "response" in error
+            ? (error as { response?: { data?: { message?: string } } }).response
+                ?.data?.message || "Email verification failed"
+            : "Email verification failed";
         setVerificationError(errorMessage);
         toast.error(errorMessage);
       } finally {
@@ -58,6 +59,7 @@ export const EmailVerificationPage: React.FC = () => {
     [navigate]
   );
 
+  // Auto-verify if token is present in URL
   React.useEffect(() => {
     if (token) {
       verifyEmail(token);
@@ -73,9 +75,12 @@ export const EmailVerificationPage: React.FC = () => {
     try {
       await authService.resendVerificationEmail(email);
       toast.success("Verification email sent successfully!");
-    } catch (error: any) {
+    } catch (error: unknown) {
       const errorMessage =
-        error.response?.data?.message || "Failed to resend verification email";
+        error instanceof Error && "response" in error
+          ? (error as { response?: { data?: { message?: string } } }).response
+              ?.data?.message || "Failed to resend verification email"
+          : "Failed to resend verification email";
       toast.error(errorMessage);
     }
   };

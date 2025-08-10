@@ -138,12 +138,15 @@ export const ProfilePage: React.FC = () => {
           console.log("Profile picture upload response:", updatedUser);
           updateUser(updatedUser);
           toast.success("Profile picture updated successfully");
-        } catch (error: any) {
+        } catch (error: unknown) {
           console.error("Profile picture upload error:", error);
           const errorMessage =
-            error.response?.data?.message ||
-            error.message ||
-            "Failed to upload image";
+            error instanceof Error && "response" in error
+              ? (error as { response?: { data?: { message?: string } } })
+                  .response?.data?.message || "Failed to upload image"
+              : error instanceof Error
+              ? error.message
+              : "Failed to upload image";
           toast.error(errorMessage);
         }
       };
