@@ -61,6 +61,7 @@ export const EmailVerificationPage: React.FC = () => {
 
   // Auto-verify if token is present in URL
   React.useEffect(() => {
+    console.log("Frontend API URL:", import.meta.env.VITE_API_URL);
     if (token) {
       verifyEmail(token);
     }
