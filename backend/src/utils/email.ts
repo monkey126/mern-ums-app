@@ -18,15 +18,6 @@ const createTransporter = () => {
 
   console.log("Creating transporter with config:", {
     ...config,
-    auth: { user: "***", pass: "***" }
-  });
-
-  return nodemailer.createTransport(config);
-};
-
-
-  console.log("Creating transporter with config:", {
-    ...config,
     auth: {
       user: config.auth.user ? "***" : "undefined",
       pass: config.auth.pass ? "***" : "undefined",
